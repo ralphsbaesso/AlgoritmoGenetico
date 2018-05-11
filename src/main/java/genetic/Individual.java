@@ -1,10 +1,18 @@
 package genetic;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Individual {
 	
 	// gera um individuo com genes aleatorio
 	public Individual() {
 		
+		for(Footstep position : positions) {
+			
+			int axisX = ThreadLocalRandom.current().nextInt(-1, 1 + 1);;
+			int axisY = ThreadLocalRandom.current().nextInt(-1, 1 + 1);;
+			position.setPosition(axisX, axisY);
+		}
 	}
 	
 	// gera um individua a partit do cruzamento dos pais
@@ -12,9 +20,10 @@ public class Individual {
 		
 	}
 	
+	private int size = 10;
 	private double fitnes = 0;
-	private String[] genes = new String[10];
-	private Position position = new Position();
+	private String[] genes = new String[size];
+	private Footstep[] positions = new Footstep[size];
 	
 	
 	public double getFitnes() {
@@ -28,12 +37,6 @@ public class Individual {
 	}
 	public void setGenes(String[] genes) {
 		this.genes = genes;
-	}
-	public Position getPosition() {
-		return position;
-	}
-	public void setPosition(Position position) {
-		this.position = position;
 	}
 
 }
