@@ -4,34 +4,59 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Individual {
 	
+	
 	// gera um individuo com genes aleatorio
-	public Individual() {
+	public Individual(int sizeGenes) {
 		
-		for(Footstep position : positions) {
+		this.sizeGenes = sizeGenes;
+		this.positions = new Footstep[sizeGenes];
+		
+		for(int i = 0; i < sizeGenes; i++) {
+			
+			positions[i] = new Footstep();
 			
 			int axisX = ThreadLocalRandom.current().nextInt(-1, 1 + 1);;
 			int axisY = ThreadLocalRandom.current().nextInt(-1, 1 + 1);;
-			position.setPosition(axisX, axisY);
+			positions[i].setPosition(axisX, axisY);
 		}
-	}
-	
-	// gera um individua a partit do cruzamento dos pais
-	public Individual(Individual ind1, Individual ind2) {
 		
 	}
 	
-	private int size = 10;
-	private double fitnes = 0;
-	private String[] genes = new String[size];
-	private Footstep[] positions = new Footstep[size];
+	// gera um individua a partit do genes do pais;
+	public Individual(Footstep[]  genes1, Footstep[]  genes2) {
+		
+		this.sizeGenes = genes1.length + genes2.length;
+		this.positions = new Footstep[genes1.length + genes2.length];
+		
+		for(int i = 0; i < positions.length; i++) {
+			
+			if(i < genes1.length)
+				positions[i] = genes1[i];
+			else
+				positions[i] = genes2[i - genes1.length];
+		}
+		
+		
+	}
+	
+	private int sizeGenes;
+	private double fitness;
+	private String[] genes = new String[sizeGenes];
+	private Footstep[] positions;
 	
 	
-	public double getFitnes() {
-		return fitnes;
+	public double getFitness() {
+		return fitness;
 	}
-	public void setFitnes(double fitnes) {
-		this.fitnes = fitnes;
+	
+	public Footstep[] getPositions() {
+		return this.positions;
 	}
+	
+	public void setFitness(double fitnes) {
+		this.fitness = fitnes;
+	}
+	
 	public String[] getGenes() {
 		return genes;
 	}
@@ -39,4 +64,19 @@ public class Individual {
 		this.genes = genes;
 	}
 
+	@Override
+	public String toString() {
+		
+		String msg = "";
+		
+		for(int i = 0; i < this.positions.length; i++) {
+			
+			msg += positions[i].getCardinal() + ", ";
+		}
+		
+		return msg + "Fitness: " + fitness;
+		
+	}
+	
+	
 }

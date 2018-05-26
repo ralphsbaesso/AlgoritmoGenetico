@@ -1,25 +1,49 @@
 package genetic;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Scanner;
 
 public class Main {
+	
+	private static int MAX_GENERATION = 1000;
 
 	public static void main(String[] args) {
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.print("Digite o número de passo como objetivo:");
+		
+		int step = scanner.nextInt();
 
-		System.out.println("WEST \u2190");
-		System.out.println("NORTH \u2191");
-		System.out.println("EAST \u2192");
-		System.out.println("SOUL \u2193");
-		System.out.println("\u2194");
-		System.out.println("\u2195");
-		System.out.println("NORTHWEST \u2196");
-		System.out.println("NORTHEAST \u2197");
-		System.out.println("SOUTHEAST \u2198");
-		System.out.println("SOUTHWEST \u2199");
-//		for(int i = 0; i < 100; i++) {
-//			int randomNum = ThreadLocalRandom.current().nextInt(-1, 1 + 1);
-//			System.out.println(randomNum);
-//		}
+		// gerar primeira população
+		Population population = new Population(10,step); 
+		
+		
+		
+		// avaliar a população até chegar na solução
+		do {
+			
+			population = population.algorithm.sortFitness(population);
+			
+			
+			System.out.println("Geração: " + population.getGeneration()
+			+ ". Melhor resultado: " + population.getIndividuals()[0].toString());
+			
+			population = population.algorithm.crossing(population);
+			
+			population.algorithm.mutation();
+			
+
+			
+			population.increaseGeneration();
+			
+		} while(!population.algorithm.hasSolution(population) && population.getGeneration() < MAX_GENERATION);
+		
+		try {
+			System.out.println("Geração: " + population.getGeneration()
+			+ ". Objetivo alcançado: " + population.getIndividualWinner().toString());
+		}catch(Exception e) {
+			System.err.println("O objetivo não foi alcançado em 100 gerações");
+		}
 	}
 
 }
