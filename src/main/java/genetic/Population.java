@@ -4,13 +4,19 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Population {
 	
-	public Population(int amountIndividual, int sizeGenes){
+	public Population(int amountIndividual, int x, int y){
 		
-		this.sizeGenes = sizeGenes;		
+//		this.sizeGenes = sizeGenes;		
 		this.size = amountIndividual;
-		GOAL_X = sizeGenes;
-		GOAL_Y = sizeGenes;
-		GOAL = GOAL_X + GOAL_Y;
+		GOAL_X = x;
+		GOAL_Y = y;
+		
+		GOAL = 0;
+		
+		if(x > y)
+			this.sizeGenes = Math.abs(x);
+		else
+			this.sizeGenes = Math.abs(y);
 		
 		this.individuals = new Individual[amountIndividual];
 		
@@ -86,10 +92,10 @@ public class Population {
 					
 					Individual indAux = null;
 					
-					if(individuals[i].getFitness() < individuals[i + 1].getFitness()) {
-						indAux = individuals[i];
-						individuals[i] = individuals[i + 1];
-						individuals[i + 1] = indAux;
+					if(individuals[i].getFitness() > individuals[i + 1].getFitness()) {
+						indAux = individuals[i + 1];
+						individuals[i + 1] = individuals[i];
+						individuals[i] = indAux;
 						hasChange = true;
 					}
 				}
@@ -213,7 +219,13 @@ public class Population {
 					x += position[j].getAxisX();
 					y += position[j].getAxisY();
 				}
-				individuals[i].setFitness(x + y);
+				
+				int ca = GOAL_X - x;
+				
+				int co = GOAL_Y - y;
+				
+				double  hi = Math.sqrt(Math.pow(ca, 2) + Math.pow(co, 2));
+				individuals[i].setFitness(hi);
 			}
 		}
 	}

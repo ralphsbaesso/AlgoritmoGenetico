@@ -24,7 +24,7 @@ public class Footstep {
 		
 //		this.position = Math.sqrt(Math.pow(axisX, 2) * Math.pow(axisY, 2));
 		
-		if(axisX == 1 && axisY == 0)
+		if(axisX == 0 && axisY == 1)
 			cardinal = EAST;
 		else if(axisX == -1 && axisY == 1)
 			cardinal = SOUTHEAST;
@@ -60,4 +60,7 @@ public class Footstep {
 		return cardinal;
 	}
 
+	public String toString() {
+		return "X: " + axisX + " Y: " + axisY + " Cardinal: " + cardinal;
+	}
 }

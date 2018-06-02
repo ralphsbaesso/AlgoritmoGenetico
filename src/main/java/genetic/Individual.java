@@ -74,7 +74,9 @@ public class Individual {
 			msg += positions[i].getCardinal() + ", ";
 		}
 		
-		return msg + "Fitness: " + fitness;
+		msg = msg.substring(0, msg.length() - 2);
+		
+		return msg + "  Falta para o objetivo: " + fitness;
 		
 	}
 	
